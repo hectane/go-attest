@@ -40,7 +40,7 @@ func ChanRecv(c interface{}) (interface{}, error) {
 	if !ok {
 		return nil, errors.New("receiving on channel failed")
 	}
-	return v, nil
+	return v.Interface(), nil
 }
 
 // Ensure that the channel is closed.

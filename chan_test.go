@@ -15,10 +15,17 @@ func TestChanSend(t *testing.T) {
 }
 
 func TestChanRecv(t *testing.T) {
-	c := make(chan bool, 1)
-	c <- true
-	if _, err := ChanRecv(c); err != nil {
+	var (
+		c    = make(chan bool, 1)
+		data = true
+	)
+	c <- data
+	v, err := ChanRecv(c)
+	if err != nil {
 		t.Fatal("unexpected error")
+	}
+	if v != data {
+		t.Fatalf("%v != %v", v, data)
 	}
 	if _, err := ChanRecv(c); err == nil {
 		t.Fatal("error expected")
