@@ -2,17 +2,53 @@ package attest
 
 import (
 	"fmt"
+	"net"
 	"net/http"
 )
 
-// Ensure that a request results in the specified status code.
-func HttpStatusCode(req *http.Request, statusCode int) error {
-	r, err := http.DefaultClient.Do(req)
+// Basic HTTP server.
+type HttpServer struct {
+	Handler  http.Handler
+	listener net.Listener
+	server   http.Server
+	stopped  chan bool
+}
+
+// Create a new HTTP server for testing purposes. To add a handler for a path,
+// use the Handler field. The server will continue to run until the Close()
+// method is invoked.
+func NewHttpServer() (*HttpServer, error) {
+	l, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
-		return err
+		return nil, err
 	}
-	if r.StatusCode != statusCode {
-		fmt.Errorf("received %d; expected %d", r.StatusCode, statusCode)
-	}
-	return nil
+	var (
+		s = http.NewServeMux()
+		c = make(chan bool)
+		h = &HttpServer{
+			Handler:  s,
+			listener: l,
+			server: http.Server{
+				Handler: s,
+			},
+			stopped: c,
+		}
+	)
+	go func() {
+		h.server.Serve(l)
+		close(c)
+	}()
+	return h, nil
+}
+
+// Retrieve the address of the server. The string will be in the form
+// "host:port".
+func (h *HttpServer) Addr() string {
+	return fmt.Sprintf("http://%s", h.listener.Addr())
+}
+
+// Close the server.
+func (h *HttpServer) Close() {
+	h.listener.Close()
+	<-h.stopped
 }
