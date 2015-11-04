@@ -7,6 +7,7 @@ import (
 	"reflect"
 )
 
+// Ensure that reading from the device results in the specified data.
 func Read(r io.Reader, data []byte) error {
 	b, err := ioutil.ReadAll(r)
 	if err != nil {
