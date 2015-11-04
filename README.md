@@ -4,8 +4,14 @@
 [![GoDoc](https://godoc.org/github.com/hectane/go-attest?status.svg)](https://godoc.org/github.com/hectane/go-attest)
 [![MIT License](http://img.shields.io/badge/license-MIT-9370d8.svg?style=flat)](http://opensource.org/licenses/MIT)
 
-This package provides a growing collection of utility functions for unit tests. Examples include verifying:
+This package provides a growing collection of utility functions and types for simplifying the creation of unit tests.
 
-- Values sent to and received from channels
-- Data read from an `io.Reader`
-- The existence of a file
+#### Functions
+
+- Verify values being sent and received on channels
+- Verify data read from an `io.Reader`
+- Verify the (non-)existence of a file
+
+#### Types
+
+- Simple local HTTP server
