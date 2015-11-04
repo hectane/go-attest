@@ -6,8 +6,6 @@
 
 This package provides a growing collection of utility functions for unit tests. Examples include verifying:
 
-- values sent to and received from channels
-- data read from an `io.Reader`
-- the existence of a file
-- HTTP responses
-- MIME messages
+- Values sent to and received from channels
+- Data read from an `io.Reader`
+- The existence of a file
