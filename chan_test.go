@@ -5,7 +5,7 @@ import (
 )
 
 func TestChanSend(t *testing.T) {
-	c := make(chan interface{}, 1)
+	c := make(chan bool, 1)
 	if err := ChanSend(c, true); err != nil {
 		t.Fatal("unexpected error")
 	}
@@ -15,7 +15,7 @@ func TestChanSend(t *testing.T) {
 }
 
 func TestChanRecv(t *testing.T) {
-	c := make(chan interface{}, 1)
+	c := make(chan bool, 1)
 	c <- true
 	if _, err := ChanRecv(c); err != nil {
 		t.Fatal("unexpected error")
@@ -23,10 +23,14 @@ func TestChanRecv(t *testing.T) {
 	if _, err := ChanRecv(c); err == nil {
 		t.Fatal("error expected")
 	}
+	close(c)
+	if _, err := ChanRecv(c); err == nil {
+		t.Fatal("error expected")
+	}
 }
 
 func TestChanClosed(t *testing.T) {
-	c := make(chan interface{})
+	c := make(chan bool)
 	if err := ChanClosed(c); err == nil {
 		t.Fatal("error expected")
 	}
