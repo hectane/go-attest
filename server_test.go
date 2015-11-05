@@ -10,6 +10,9 @@ func TestHttpServer(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	h.Handler.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "", http.StatusOK)
+	})
 	req, err := http.NewRequest("GET", h.Addr(), nil)
 	if err != nil {
 		t.Fatal(err)
@@ -18,8 +21,8 @@ func TestHttpServer(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if resp.StatusCode != http.StatusNotFound {
-		t.Fatal("%d != %d", resp.StatusCode, http.StatusNotFound)
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("%d != %d", resp.StatusCode, http.StatusOK)
 	}
 	h.Close()
 	if _, err := http.DefaultClient.Do(req); err == nil {

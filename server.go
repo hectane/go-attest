@@ -8,7 +8,7 @@ import (
 
 // Basic HTTP server.
 type HttpServer struct {
-	Handler  http.Handler
+	Handler  *http.ServeMux
 	listener net.Listener
 	server   http.Server
 	stopped  chan bool
@@ -42,7 +42,7 @@ func NewHttpServer() (*HttpServer, error) {
 }
 
 // Retrieve the address of the server. The string will be in the form
-// "host:port".
+// "http://host:port".
 func (h *HttpServer) Addr() string {
 	return fmt.Sprintf("http://%s", h.listener.Addr())
 }
