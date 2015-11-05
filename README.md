@@ -11,6 +11,7 @@ This package provides a growing collection of utility functions and types for si
 - Verify values being sent and received on channels
 - Verify data read from an `io.Reader`
 - Verify the (non-)existence of a file
+- Verify HTTP status codes
 
 #### Types
 
